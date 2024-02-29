@@ -276,6 +276,40 @@ function editTaskShowAvatars() {
   }
 }
 
+function editTaskPreventDefault(event) {
+  event.preventDefault();
+}
+
+/**
+ * Searches for contacts to assign to a task based on the search input.
+ * Retrieves the search input value, clears the container for contacts,
+ * loops through available contacts, filters contacts based on the search input,
+ * and generates HTML elements for displaying filtered contacts.
+ */
+function editTaskAssignedToSearch(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+  }
+  let search = document.getElementById("find-person-edit").value.toLowerCase();
+  const createContactsContainer = document.getElementById("add-task-contact-edit");
+  createContactsContainer.innerHTML = "";
+
+  for (let i = 0; i < contactsToAssigned.length; i++) {
+    const contact = contactsToAssigned[i].name;
+    const bgColor = assignColor(contact); // Assuming assignColor function is defined elsewhere
+
+    if (contact.toLowerCase().includes(search)) {
+      const assigned = newTask.assignees.includes(contact); // Check if contact is already assigned
+      createContactsContainer.innerHTML += addTaskAssignedToSearchHTML(
+        i,
+        bgColor,
+        contact,
+        assigned
+      );
+    }
+  }
+}
+
 /**
  * Displays avatars for assigned contacts in the edit task dialog.
  * @param {Array} assignees - An array containing assigned contacts for the task.
@@ -507,13 +541,13 @@ function editTaskSubtasksListInBoard(param, event) {
 
 function confirmTaskSubtasksListInBoard(i, event) {
   if (event.type === "keypress" && event.key !== "Enter") return;
-  
+
   event.preventDefault();
   const subtasks = document.getElementById("edit-task-subtasks-input-edit");
   const subtaskValue = subtasks.value.trim();
 
   if (!subtaskValue) return;
- 
+
   editSubtasksList.splice(i, 1, subtaskValue);
   indexOfSubtasks = { name: subtaskValue, completed: false };
   newTask.subtasks.splice(i, 1, indexOfSubtasks);

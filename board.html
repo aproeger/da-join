@@ -153,10 +153,10 @@
                         <input
                           type="text"
                           name="find-person"
-                          id="find-person"
+                          id="find-person-edit"
                           autocomplete="off"
                           placeholder="Select contacts to assign"
-                          onkeyup="addTaskAssignedToSearch()"
+                          onkeydown="editTaskAssignedToSearch(event)"
                         />
                       </div>
                       <ul id="add-task-contact-edit"></ul>

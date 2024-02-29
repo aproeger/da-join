@@ -231,7 +231,10 @@ function addTaskShowAvatars() {
  * loops through available contacts, filters contacts based on the search input,
  * and generates HTML elements for displaying filtered contacts.
  */
-function addTaskAssignedToSearch() {
+function addTaskAssignedToSearch(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+  }
   let search = document.getElementById("find-person").value.toLowerCase();
   const createContactsContainer = document.getElementById("add-task-contact");
   createContactsContainer.innerHTML = "";
